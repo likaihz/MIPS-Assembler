@@ -5,18 +5,21 @@
 
 using namespace std;
 
-int Get_label(Label lebel[], ifstream fin)
+int Get_label(Label label[], string fname)
 {
 	string buf = "" , tmp = "";
 	
 	int cnt_line = 0, cnt_lbl = 0;
+	ifstream fin(fname);
+	if(fin == NULL)
+		return -1;									//exception!!!
 	while(!fin.eof())
 	{
 		getline(fin, buf);
 		string::iterator it;
 		for(it = buf.begin(); it != buf.end(); )
 		{
-			if( *it == ' ' || *it = '\t')
+			if( *it == ' ' || *it == '\t')
 				buf.erase(it);
 			else
 				it++;
@@ -49,3 +52,20 @@ int Get_label(Label lebel[], ifstream fin)
 
 	return cnt_lbl;
 }
+
+/*
+int main()
+{
+	//ifstream fin("tt");
+	string name("tt");
+	Label label[LABEL_AT_MOST];
+	int num = Get_label(label, name);
+
+	for(int i=0; i < num; i++)
+	{
+		cout << label[i].label <<'\t' <<label[i].location<< endl;
+			
+	}
+	return 0;
+}
+*/

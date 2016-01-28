@@ -5,11 +5,14 @@
 #include <string>
 #include <iostream>
 
-public class Label{
-	string label;
-	int location;
-}
+using namespace std;
+class Label{
+	public:
+		string label;
+		int location;
+		Label() {};
+};
 
-int Get_label(Label label[], ifstream fin);
+int Get_label(Label label[], string fname);
 
 #endif
