@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include "format.h"
 #include "label.h"
 
 using namespace std;
@@ -16,6 +17,7 @@ int Get_label(Label label[], string fname)
 	while(!fin.eof())
 	{
 		getline(fin, buf);
+		buf = Erase_Comment(buf);
 		string::iterator it;
 		for(it = buf.begin(); it != buf.end(); )
 		{
@@ -27,7 +29,8 @@ int Get_label(Label label[], string fname)
 
 		if(!buf.empty())
 			cnt_line ++;
-		
+		else
+			continue;
 		if(0 <= buf.find(":") && buf.find(":") < buf.length())
 		{
 			tmp = buf.substr(0, buf.find(":"));
@@ -53,7 +56,7 @@ int Get_label(Label label[], string fname)
 	return cnt_lbl;
 }
 
-/*
+
 int main()
 {
 	//ifstream fin("tt");
@@ -68,4 +71,4 @@ int main()
 	}
 	return 0;
 }
-*/
+
