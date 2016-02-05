@@ -1,53 +1,40 @@
-/* 汇编器主程序*/
-
-#include <fstream>
-#include <iostream>
-#include <string>
 #include "Assembler.h"
-#include "format.h"
-#include "label.h"
-
+//#include "format.h"
+//#include "label.h"
 using namespace std;
 
-int Assembler(string fname)
+void Assembler::Format()
 {
-	Label label[LABEL_AT_MOST];
-	int i, cnt_lbl, cnt_line;
-
-	cnt_lbl = Get_Label(label, fname);
-	ifstream fin(fname);
-	ofstream fout;
-	fout.open(/********??*********/);
-	fout.close();			//清空目标文件的内容
-
-	if(!fin)
+	/*
+	 * functions:
+	 * 	erase empty lines;
+	 * 	erase white blanks at the beginning and end of each line;
+	 *	put the label in a new line;
+	 */
+	auto it = lines.begin();
+	while(it != lines.end() )
 	{
-		cout << "The asm file does not exist!" << endl;
-		exit(0);
-	}
-
-	while(!fin.eof())
-	{
-		string buf = "", ir, res ;
-		getline(fin, buf);
-		string::iterator it;
-		for(it = buf.begin(); it != buf.end(); )		//
-		{
-			if(*it == ' ' || *it == '\t')
-				buf.erase(it);
-			else
-				it++;
+		for(auto str_it = it -> begin(); str_it != it -> end(); ) {
+			if(*str_it == ' ' || *str_it == '\t')
+				it -> erase(str_it);
+			else break;
 		}
-		if(buf.
-		if(buf.empty())
-			continue;
 
+		auto str_rit = it -> rbegin();
+		for( ; *str_rit == ' ' || *str_rit == '\t' ; str_rit ++ ) ;
+		string::iterator str_it(str_rit.base() );
+		it -> erase(str_it, it -> end() );
+
+		if(it -> empty()) lines.erase(it);
+		else it++;
 	}
 
+
 }
 
-int main()
+void Assembler::PreProcess()
 {
-	return 0;
+	EraseComment();
+	Format();
+	ScanLabel();
 }
-
